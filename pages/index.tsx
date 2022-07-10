@@ -35,6 +35,14 @@ async function getServerSideProps(params: string) {
   return { props: { data } };
 }
 
+function splitArray(arr: string[]) {
+  const newArray = [];
+  for (let i = 0; i < arr.length; i += 2) {
+    newArray.push([arr[i], arr[i + 1]]);
+  }
+  return newArray;
+}
+
 const Home: NextPage = () => {
   const [leaderData, setLeaderData] = useState(null);
   const [isLoading, setLoading] = useState(false);
@@ -42,7 +50,7 @@ const Home: NextPage = () => {
   useEffect(() => {
     setLoading(true);
     fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/1ffqemZ-YOi7AvAw8HbxmMd0vIbsOXLZ7KpAmNQPD2r8/values/MP Round!A3:K22?majorDimension=COLUMNS&valueRenderOption=FORMULA&key=${process.env.NEXT_PUBLIC_GKEY}`,
+      `https://sheets.googleapis.com/v4/spreadsheets/1ffqemZ-YOi7AvAw8HbxmMd0vIbsOXLZ7KpAmNQPD2r8/values/MP Round!A3:K27?majorDimension=COLUMNS&valueRenderOption=FORMULA&key=${process.env.NEXT_PUBLIC_GKEY}`,
       requestOptions
     )
       .then((res) => res.json())
@@ -72,7 +80,7 @@ const Home: NextPage = () => {
           ))}
         </ul> */}
 
-        <ul className="grid grid-cols-2 gap-4 m-auto">
+        <ul className="grid grid-cols-2 gap-4 mx-auto my-10">
           {leaderData?.map((item) => (
             <li key={item.id} className="list-none">
               <div className="flex mx-4 flex-col m-auto bg-blue-300 p-4 rounded-md shadow-lg">
@@ -82,6 +90,8 @@ const Home: NextPage = () => {
             </li>
           ))}
         </ul>
+
+        <p>{leaderData ? leaderData[0]?.slice(1) : "fail"}</p>
         {/* <p>{leaderData.values[0]}</p> */}
         {/* <p>{leaderData}</p> */}
       </main>
