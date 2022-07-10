@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
 
@@ -39,18 +40,26 @@ function leadershipTile(arr: string[]) {
   const newArray = [];
   for (let i = 1; i < arr.length; i++) {
     if (i < arr.length - 1) {
-      newArray.push(arr[i] + ", ");
+      // newArray.push(arr[i] + ", ");
+      return (
+        <Link
+          href={`https://members.parliament.uk/FindYourMP?SearchText=${arr[i]}`}
+        >
+          <p>{arr[i] + ","}</p>
+        </Link>
+      );
     } else {
-      newArray.push(arr[i]);
+      // newArray.push(arr[i]);
+      return (
+        <Link
+          href={`https://members.parliament.uk/FindYourMP?SearchText=${arr[i]}`}
+        >
+          <p>{arr[i] + ","}</p>
+        </Link>
+      );
     }
   }
-  return newArray;
-
-  function leaderBackers(arr: string[]) {
-    for (let i = 1; i < arr.length; i++) {
-      return arr[i];
-    }
-  }
+  // return newArray;
 }
 
 const Home: NextPage = () => {
@@ -95,7 +104,12 @@ const Home: NextPage = () => {
             <li key={item.id} className="list-none">
               <div className="flex  mx-4 flex-col m-auto bg-blue-400 p-4 rounded-md shadow-lg">
                 <div className="relative flex flex-auto">
-                  <p className="font-extrabold">{item[0]}</p>
+                  <Link
+                    className="font-extrabold"
+                    href={`https://members.parliament.uk/FindYourMP?SearchText=${item[0]}`}
+                  >
+                    {item[0]}
+                  </Link>
                   <p className="font-extralight px-2">
                     supporters: {item.slice(1).length}
                   </p>
