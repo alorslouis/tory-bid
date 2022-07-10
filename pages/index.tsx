@@ -64,21 +64,24 @@ const Home: NextPage = () => {
         <h1 className="text-8xl font-extrabold py-3">toryBids</h1>
 
         {/* <p>{dummyData[0].id}</p> */}
-        <ul className="grid grid-cols-2 gap-4">
+        {/* <ul className="grid grid-cols-2 gap-4">
           {dummyData.map((item) => (
             <li key={item.id}>
               {item.id},{item?.name}
             </li>
           ))}
-        </ul>
+        </ul> */}
 
-        <div>
+        <ul className="grid grid-cols-2 gap-4 m-auto">
           {leaderData?.map((item) => (
             <li key={item.id} className="list-none">
-              <p className="font-extrabold">{item[0]}</p>
+              <div className="flex mx-4 flex-col m-auto bg-blue-300 p-4 rounded-md shadow-lg">
+                <p className="font-extrabold">{item[0]}</p>
+                <p className="font-light">{item.slice(1)}</p>
+              </div>
             </li>
           ))}
-        </div>
+        </ul>
         {/* <p>{leaderData.values[0]}</p> */}
         {/* <p>{leaderData}</p> */}
       </main>
