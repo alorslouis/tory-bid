@@ -35,12 +35,22 @@ async function getServerSideProps(params: string) {
   return { props: { data } };
 }
 
-function splitArray(arr: string[]) {
+function leadershipTile(arr: string[]) {
   const newArray = [];
-  for (let i = 0; i < arr.length; i += 2) {
-    newArray.push([arr[i], arr[i + 1]]);
+  for (let i = 1; i < arr.length; i++) {
+    if (i < arr.length - 1) {
+      newArray.push(arr[i] + ", ");
+    } else {
+      newArray.push(arr[i]);
+    }
   }
   return newArray;
+
+  function leaderBackers(arr: string[]) {
+    for (let i = 1; i < arr.length; i++) {
+      return arr[i];
+    }
+  }
 }
 
 const Home: NextPage = () => {
@@ -83,15 +93,23 @@ const Home: NextPage = () => {
         <ul className="grid grid-cols-2 gap-4 mx-auto my-10">
           {leaderData?.map((item) => (
             <li key={item.id} className="list-none">
-              <div className="flex mx-4 flex-col m-auto bg-blue-300 p-4 rounded-md shadow-lg">
-                <p className="font-extrabold">{item[0]}</p>
-                <p className="font-light">{item.slice(1)}</p>
+              <div className="flex  mx-4 flex-col m-auto bg-blue-400 p-4 rounded-md shadow-lg">
+                <div className="relative flex flex-auto">
+                  <p className="font-extrabold">{item[0]}</p>
+                  <p className="font-extralight px-2">
+                    supporters: {item.slice(1).length}
+                  </p>
+                </div>
+                {/* <p className="font-light">{item.slice(1)}</p> */}
+
+                <p className="text-gray-200">{leadershipTile(item)}</p>
               </div>
             </li>
           ))}
         </ul>
 
         <p>{leaderData ? leaderData[0]?.slice(1) : "fail"}</p>
+        <p>{leaderData ? leaderData[0].length : "fail"}</p>
         {/* <p>{leaderData.values[0]}</p> */}
         {/* <p>{leaderData}</p> */}
       </main>
