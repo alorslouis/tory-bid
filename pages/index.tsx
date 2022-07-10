@@ -15,29 +15,11 @@ const dummyData = [{ id: 1, name: "rishi" }, { id: 2 }, { id: 3 }];
 const requestOptions = {
   method: "GET",
   redirect: "follow",
-  key: process.env.KEY,
+  // key: process.env.KEY,
 };
 
-function getGSheetsData(params: type) {
-  return fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/${params.spreadsheetId}/values:batchGet?ranges=${params.range}&majorDimension=ROWS&key=${params.apiKey}`
-  )
-    .then((res) => res.json())
-    .then((data) => data.valueRanges[0].values);
-}
-
-async function getServerSideProps(params: string) {
-  const res = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/1ffqemZ-YOi7AvAw8HbxmMd0vIbsOXLZ7KpAmNQPD2r8/values/MP Round!A3:K22?majorDimension=COLUMNS&valueRenderOption=FORMULA`
-  );
-  const data = await res.json();
-
-  // Pass data to the page via props
-  return { props: { data } };
-}
-
-function leadershipTile(arr: string[]) {
-  const newArray = [];
+function leadershipTile(arr: string) {
+  // const newArray = [];
   for (let i = 1; i < arr.length; i++) {
     if (i < arr.length - 1) {
       // newArray.push(arr[i] + ", ");
@@ -54,7 +36,7 @@ function leadershipTile(arr: string[]) {
         <Link
           href={`https://members.parliament.uk/FindYourMP?SearchText=${arr[i]}`}
         >
-          <p>{arr[i] + ","}</p>
+          <p>{arr[i]}</p>
         </Link>
       );
     }
@@ -62,22 +44,43 @@ function leadershipTile(arr: string[]) {
   // return newArray;
 }
 
-const Home: NextPage = () => {
-  const [leaderData, setLeaderData] = useState(null);
-  const [isLoading, setLoading] = useState(false);
+function leadershipTile2(arr: string) {
+  // const newArray = [];
+  for (let i = 1; i < arr.length; i++) {
+    // newArray.push(arr[i] + ", ");
+    return (
+      <Link
+        href={`https://members.parliament.uk/FindYourMP?SearchText=${arr[i]}`}
+      >
+        <p>{arr[i] + ","}</p>
+      </Link>
+    );
+  }
 
-  useEffect(() => {
-    setLoading(true);
-    fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/1ffqemZ-YOi7AvAw8HbxmMd0vIbsOXLZ7KpAmNQPD2r8/values/MP Round!A3:K27?majorDimension=COLUMNS&valueRenderOption=FORMULA&key=${process.env.NEXT_PUBLIC_GKEY}`,
-      requestOptions
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setLeaderData(data.values);
-        setLoading(false);
-      });
-  }, []);
+  for (let j = 0; j < arr.length; j++) {
+    const element = arr[j];
+  }
+}
+// return newArray;
+
+const Home: NextPage = ({ data }) => {
+  // const [leaderData, setLeaderData] = useState(null);
+  // const [isLoading, setLoading] = useState(false);
+
+  // useEffect(() => {
+  //   setLoading(true);
+  //   fetch(
+  //     `https://sheets.googleapis.com/v4/spreadsheets/1ffqemZ-YOi7AvAw8HbxmMd0vIbsOXLZ7KpAmNQPD2r8/values/MP Round!A3:K?majorDimension=COLUMNS&valueRenderOption=FORMULA&key=${process.env.NEXT_PUBLIC_GKEY}`
+  //     // requestOptions
+  //   )
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setLeaderData(data.values);
+  //       setLoading(false);
+  //     });
+  // }, []);
+
+  const leaderBids = data.values;
 
   return (
     <div className={styles.container}>
@@ -99,31 +102,38 @@ const Home: NextPage = () => {
           ))}
         </ul> */}
 
-        <ul className="grid grid-cols-2 gap-4 mx-auto my-10">
-          {leaderData?.map((item) => (
-            <li key={item.id} className="list-none">
-              <div className="flex  mx-4 flex-col m-auto bg-blue-400 p-4 rounded-md shadow-lg">
-                <div className="relative flex flex-auto">
-                  <Link
-                    className="font-extrabold"
-                    href={`https://members.parliament.uk/FindYourMP?SearchText=${item[0]}`}
-                  >
-                    {item[0]}
-                  </Link>
-                  <p className="font-extralight px-2">
-                    supporters: {item.slice(1).length}
-                  </p>
-                </div>
-                {/* <p className="font-light">{item.slice(1)}</p> */}
+        <div>
+          <ul className="grid grid-cols-2 gap-4 mx-auto my-10">
+            {leaderBids
+              ? leaderBids?.map((item) => (
+                  <li key={item.id} className="list-none">
+                    <div className="flex  mx-4 flex-col m-auto bg-blue-400 p-4 rounded-md shadow-lg">
+                      <div className="relative flex flex-auto">
+                        <Link
+                          className="font-extrabold"
+                          href={`https://members.parliament.uk/FindYourMP?SearchText=${item[0]}`}
+                        >
+                          {item[0].toUpperCase()}
+                        </Link>
+                        <p className="font-extralight px-2">
+                          supporters: {item?.slice(1)?.length}
+                        </p>
+                      </div>
+                      {/* <p className="font-light">{item.slice(1)}</p> */}
 
-                <p className="text-gray-200">{leadershipTile(item)}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
+                      <span className="text-gray-200">
+                        {leadershipTile2(item)}
+                      </span>
+                    </div>
+                  </li>
+                ))
+              : "loading..."}
+          </ul>
+        </div>
 
-        <p>{leaderData ? leaderData[0]?.slice(1) : "fail"}</p>
-        <p>{leaderData ? leaderData[0].length : "fail"}</p>
+        {/* <p>{leaderBids ? leaderBids[0]?.slice(1) : "fail"}</p> */}
+        {/* <p>{leaderBids ? leaderBids[0].length : "fail"}</p> */}
+        <p>{leaderBids[0]}</p>
         {/* <p>{leaderData.values[0]}</p> */}
         {/* <p>{leaderData}</p> */}
       </main>
@@ -142,6 +152,17 @@ const Home: NextPage = () => {
       </footer>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  // Fetch data from external API
+  const res = await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/1ffqemZ-YOi7AvAw8HbxmMd0vIbsOXLZ7KpAmNQPD2r8/values/MP Round!A3:K?majorDimension=COLUMNS&valueRenderOption=FORMULA&key=${process.env.NEXT_PUBLIC_GKEY}`
+  );
+  const data = await res.json();
+
+  // Pass data to the page via props
+  return { props: { data } };
 };
 
 export default Home;
