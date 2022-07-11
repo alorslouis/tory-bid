@@ -2,6 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-}
+  images: {
+    domains: ["members-api.parliament.uk"],
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
