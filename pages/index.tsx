@@ -6,41 +6,50 @@ import styles from "../styles/Home.module.css";
 
 const dummyData = [{ id: 1, name: "rishi" }, { id: 2 }, { id: 3 }];
 
-// type params for getGSheetsData
-// const params = {
-//   spreadsheetId = "1ffqemZ-YOi7AvAw8HbxmMd0vIbsOXLZ7KpAmNQPD2r8";
-// }
-
-const requestOptions = {
-  method: "GET",
-  redirect: "follow",
-  // key: process.env.KEY,
-};
-
 function leadershipTile(arr: string) {
   // const newArray = [];
   for (let i = 1; i < arr.length; i++) {
-    if (i < arr.length - 1) {
-      // newArray.push(arr[i] + ", ");
-      return (
+    // newArray.push(arr[i] + ", ");
+    return (
+      <Link
+        className="font-extrabold"
+        href="/profile/[name]"
+        as={`/profile/${encodeURIComponent(arr[i])}`}
+      >
+        {arr[i] + ","}
+      </Link>
+      // <Link
+      //   href={`https://members.parliament.uk/FindYourMP?SearchText=${arr[i]}`}
+      // >
+      //   <p>{}</p>
+      // </Link>
+    );
+  }
+  // return newArray;
+}
+
+// function to loop through the array and return a list of links
+function leadershipList(arr: string) {
+  const newArray = [];
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i].match(/^[A-Z]/)) {
+      newArray.push(
         <Link
-          href={`https://members.parliament.uk/FindYourMP?SearchText=${arr[i]}`}
+          className="font-extrabold"
+          href="/profile/[name]"
+          as={`/profile/${encodeURIComponent(arr[i])}`}
         >
-          <p>{arr[i] + ","}</p>
-        </Link>
-      );
-    } else {
-      // newArray.push(arr[i]);
-      return (
-        <Link
-          href={`https://members.parliament.uk/FindYourMP?SearchText=${arr[i]}`}
-        >
-          <p>{arr[i]}</p>
+          {arr[i] + " • "}
         </Link>
       );
     }
   }
-  // return newArray;
+  return (
+    <div>
+      supporters: {newArray.length}
+      <div className="text-center"> {newArray}</div>
+    </div>
+  );
 }
 
 function leadershipTile2(arr: string) {
@@ -96,35 +105,35 @@ const Home: NextPage = ({ data }) => {
             </li>
           ))}
         </ul> */}
-
         <div>
           <ul className="grid grid-cols-2 gap-4 mx-auto my-10">
             {leaderBids
               ? leaderBids?.map((item) => (
                   <li key={item} className="list-none">
                     <div className="flex  mx-4 flex-col m-auto bg-blue-400 p-4 rounded-md shadow-lg">
-                      <div className="relative flex flex-auto">
-                        <Link
+                      {/* <div className="relative flex flex-auto"> */}
+                      {/* <Link
                           className="font-extrabold"
                           href={`https://members.parliament.uk/FindYourMP?SearchText=${item[0]}`}
                         >
                           {item[0].toUpperCase()}
-                        </Link>
-                        <Link
-                          className="font-extrabold"
-                          href="/profile/[name]"
-                          as={`/profile/${encodeURIComponent(item[0])}`}
-                        >
-                          {item[0]}
-                        </Link>
-                        <p className="font-extralight px-2">
-                          supporters: {item?.slice(1)?.length}
+                        </Link> */}
+                      <Link
+                        href="/profile/[name]"
+                        as={`/profile/${encodeURIComponent(item[0])}`}
+                      >
+                        <p className="font-extrabold">
+                          {item[0].toUpperCase()}
                         </p>
-                      </div>
+                      </Link>
+                      {/* <p className="font-extralight px-2">
+                          supporters: {item?.slice(1)?.length}
+                        </p> */}
+                      {/* </div> */}
                       {/* <p className="font-light">{item.slice(1)}</p> */}
 
                       <span className="text-gray-200">
-                        {leadershipTile2(item)}
+                        {leadershipList(item)}
                       </span>
                     </div>
                   </li>

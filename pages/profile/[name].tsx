@@ -10,12 +10,16 @@ const Profile: NextPage = ({ data1, data2 }) => {
 
   return (
     <>
-      <div>
+      <div className="flex-col">
         <div>passed: {name}</div>
         get: {data1?.items[0].value.id}, {data1.items[0].value.nameDisplayAs}
         get2: {data2?.value}
         <div>
-          <Image src={data2?.value} width={300} height={300} />
+          <Image
+            src={data1?.items[0].value.thumbnailUrl}
+            width={300}
+            height={300}
+          />
         </div>
       </div>
     </>
