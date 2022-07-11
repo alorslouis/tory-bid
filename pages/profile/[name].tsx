@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { GetServerSideProps } from "next";
 
-const Profile: NextPage = ({ data }) => {
+const Profile: NextPage = ({ data1, data2 }) => {
   const router = useRouter();
   const { name } = router.query;
 
@@ -11,7 +11,8 @@ const Profile: NextPage = ({ data }) => {
     <>
       <div>
         <div>passed: {name}</div>
-        get: {data?.items[0].value.id}, {data.items[0].value.nameDisplayAs}
+        get: {data1?.items[0].value.id}, {data1.items[0].value.nameDisplayAs}
+        get2: {data2?.value}
       </div>
     </>
   );
@@ -19,13 +20,18 @@ const Profile: NextPage = ({ data }) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   // Fetch data from external API
-  const res = await fetch(
+  const res1 = await fetch(
     `https://members-api.parliament.uk/api/Members/Search?Name=${context.params.name}`
   );
-  const data = await res.json();
+  const data1 = await res1.json();
+
+  const res2 = await fetch(
+    `https://members-api.parliament.uk/api/Members/${data1?.items[0].value.id}/PortraitUrl`
+  );
+  const data2 = await res2.json();
 
   // Pass data to the page via props
-  return { props: { data } };
+  return { props: { data1, data2 } };
 };
 
 export default Profile;
