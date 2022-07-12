@@ -6,6 +6,16 @@ import styles from "../styles/Home.module.css";
 
 const dummyData = [{ id: 1, name: "rishi" }, { id: 2 }, { id: 3 }];
 
+type candidate = {
+  id: number;
+  name: string;
+};
+
+interface candidacy {
+  candidate: string;
+  support: [count: number, supporters?: [supporter: string]];
+}
+
 function leadershipTile(arr: string) {
   // const newArray = [];
   for (let i = 1; i < arr.length; i++) {
@@ -47,25 +57,10 @@ function leadershipList(arr: string) {
   return (
     <div>
       supporters: {newArray.length}
-      <div className="text-center"> {newArray}</div>
+      <div className="text-center">{newArray}</div>
     </div>
   );
 }
-
-function leadershipTile2(arr: string) {
-  // const newArray = [];
-  for (let i = 1; i < arr.length; i++) {
-    // newArray.push(arr[i] + ", ");
-    return (
-      <Link
-        href={`https://members.parliament.uk/FindYourMP?SearchText=${arr[i]}`}
-      >
-        <p>{arr[i] + ","}</p>
-      </Link>
-    );
-  }
-}
-// return newArray;
 
 const Home: NextPage = ({ data }) => {
   // const [leaderData, setLeaderData] = useState(null);
@@ -84,7 +79,7 @@ const Home: NextPage = ({ data }) => {
   //     });
   // }, []);
 
-  const leaderBids = data.values;
+  const leaderBids: string[] = data.values;
 
   return (
     <div className={styles.container}>
@@ -122,7 +117,7 @@ const Home: NextPage = ({ data }) => {
                         href="/profile/[name]"
                         as={`/profile/${encodeURIComponent(item[0])}`}
                       >
-                        <p className="font-extrabold">
+                        <p className="font-extrabold cursor-pointer">
                           {item[0].toUpperCase()}
                         </p>
                       </Link>
@@ -132,7 +127,7 @@ const Home: NextPage = ({ data }) => {
                       {/* </div> */}
                       {/* <p className="font-light">{item.slice(1)}</p> */}
 
-                      <span className="text-gray-200">
+                      <span className="text-gray-200 m-4">
                         {leadershipList(item)}
                       </span>
                     </div>
@@ -144,6 +139,7 @@ const Home: NextPage = ({ data }) => {
 
         {/* <p>{leaderBids ? leaderBids[0]?.slice(1) : "fail"}</p> */}
         {/* <p>{leaderBids ? leaderBids[0].length : "fail"}</p> */}
+
         <p>{leaderBids[0]}</p>
         {/* <p>{leaderData.values[0]}</p> */}
         {/* <p>{leaderData}</p> */}
@@ -171,7 +167,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const res = await fetch(
     `https://sheets.googleapis.com/v4/spreadsheets/1ffqemZ-YOi7AvAw8HbxmMd0vIbsOXLZ7KpAmNQPD2r8/values/MP Round!A2:M?majorDimension=COLUMNS&valueRenderOption=FORMULA&key=${process.env.NEXT_PUBLIC_GKEY}`
   );
-  const data = await res.json();
+  const data: string[] = await res.json();
 
   // Pass data to the page via props
   return { props: { data } };
