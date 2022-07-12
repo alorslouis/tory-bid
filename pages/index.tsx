@@ -42,7 +42,7 @@ function leadershipTile(arr: string) {
 function leadershipList(arr: string) {
   const newArray = [];
   for (let i = 1; i < arr.length; i++) {
-    if (arr[i].match(/^[A-Z]/)) {
+    if (arr[i].match(/^\w+\s\w+/)) {
       newArray.push(
         <Link
           className="font-extrabold"
@@ -79,7 +79,7 @@ const Home: NextPage = ({ data }) => {
   //     });
   // }, []);
 
-  const leaderBids: string[] = data.values;
+  const leaderBids = data.values;
 
   return (
     <div className={styles.container}>
@@ -105,6 +105,7 @@ const Home: NextPage = ({ data }) => {
             {leaderBids
               ? leaderBids?.map((item) => (
                   <li key={item} className="list-none">
+                    {/* {console.log(item)} */}
                     <div className="flex  mx-4 flex-col m-auto bg-blue-400 p-4 rounded-md shadow-lg">
                       {/* <div className="relative flex flex-auto"> */}
                       {/* <Link
@@ -117,9 +118,9 @@ const Home: NextPage = ({ data }) => {
                         href="/profile/[name]"
                         as={`/profile/${encodeURIComponent(item[0])}`}
                       >
-                        <p className="font-extrabold cursor-pointer">
-                          {item[0].toUpperCase()}
-                        </p>
+                        <h2 className="font-extrabold cursor-pointer">
+                          {item[0]?.toUpperCase()}
+                        </h2>
                       </Link>
                       {/* <p className="font-extralight px-2">
                           supporters: {item?.slice(1)?.length}
@@ -140,7 +141,7 @@ const Home: NextPage = ({ data }) => {
         {/* <p>{leaderBids ? leaderBids[0]?.slice(1) : "fail"}</p> */}
         {/* <p>{leaderBids ? leaderBids[0].length : "fail"}</p> */}
 
-        <p>{leaderBids[0]}</p>
+        {/* <p>{leaderBids[0]}</p> */}
         {/* <p>{leaderData.values[0]}</p> */}
         {/* <p>{leaderData}</p> */}
       </main>
@@ -165,9 +166,9 @@ const Home: NextPage = ({ data }) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   // Fetch data from external API
   const res = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/1ffqemZ-YOi7AvAw8HbxmMd0vIbsOXLZ7KpAmNQPD2r8/values/MP Round!A2:M?majorDimension=COLUMNS&valueRenderOption=FORMULA&key=${process.env.NEXT_PUBLIC_GKEY}`
+    `https://sheets.googleapis.com/v4/spreadsheets/1ffqemZ-YOi7AvAw8HbxmMd0vIbsOXLZ7KpAmNQPD2r8/values/First Round!A2:H?majorDimension=COLUMNS&key=${process.env.NEXT_PUBLIC_GKEY}`
   );
-  const data: string[] = await res.json();
+  const data = await res.json();
 
   // Pass data to the page via props
   return { props: { data } };

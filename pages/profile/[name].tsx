@@ -26,8 +26,8 @@ const Profile: NextPage = ({ data1, data2 }) => {
         <div className="flex-col mx-4">
           <div className="text-lg font-semibold">passed: {name}</div>
           <div>
-            member for{" "}
-            {data1?.items[0].value.latestHouseMembership.membershipFrom}, since{" "}
+            MP for {data1?.items[0].value.latestHouseMembership.membershipFrom},
+            since{" "}
             {data1?.items[0].value.latestHouseMembership.membershipStartDate}
           </div>
           get: {data1?.items[0].value.id},{" "}
