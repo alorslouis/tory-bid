@@ -22,9 +22,13 @@ function candidateFormat(arr: string[]): candidacy {
   let supporters = [];
   for (let i = 1; i < arr.length; i++) {
     // little trick to drop those elements we don't want
-    if (arr[i].match(/undeclared|-/gim)) {
+    if (arr[i].match(/undeclared/gim)) {
     } else {
-      supporters.push(arr[i]);
+      if (arr[i] === "-") {
+        supporters.push("undeclared");
+      } else {
+        supporters.push(arr[i]);
+      }
     }
   }
   return { candidate, support: supporters.length, supporters };
