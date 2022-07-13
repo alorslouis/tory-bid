@@ -83,8 +83,8 @@ const Home: NextPage = ({ data }) => {
   //     });
   // }, []);
 
-  const leaderBids = data.values;
-  const leaderData = formatData(leaderBids);
+  // const leaderBids = data.values;
+  const leaderData = formatData(data.values);
 
   return (
     <>

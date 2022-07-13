@@ -44,6 +44,7 @@ const Profile: NextPage = ({ data1, data2 }) => {
                   } */}
                   {memberDate.getFullYear()}
                 </p>
+                <p>{data2?.value.representations[0].additionalInfo}</p>
               </div>
             </div>{" "}
             <hr className="bg-white" />
@@ -51,11 +52,76 @@ const Profile: NextPage = ({ data1, data2 }) => {
               get: {data1?.items[0].value.id},{" "}
               {data1?.items[0]?.value?.nameDisplayAs}
               get2: {data2?.value.representations[0].name}
-              <p>
+              <div>
                 {data2.value.representations.map((i) => (
                   <div>{i.additionalInfo}</div>
                 ))}
-              </p>
+              </div>
+              {/* <div>
+                <span className="text-lg">government posts: </span>
+                {data2.value.governmentPosts[0]
+                  ? data2.value.governmentPosts.map((e) => (
+                      <div>
+                        <span className="font-bold">{e.name}:</span>{" "}
+                        {e.startDate} - {e?.endDate ? e?.endDate : "now"}
+                      </div>
+                    ))
+                  : "none"}
+              </div> */}
+              <div className="text-center flex-1 p-4">
+                <span className="text-lg font-extrabold">government posts</span>
+                <hr />
+                <table className="border-collapse table-auto w-full text-sm">
+                  <thead>
+                    <tr>
+                      <th>Post</th>
+                      <th>From</th>
+                      <th>Until </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data2.value.governmentPosts[0]
+                      ? data2.value.governmentPosts.map((e) => (
+                          <tr>
+                            <td className="text-start">{e.name}</td>
+                            <td className="">{e.startDate}</td>
+                            <td className="">
+                              {e?.endDate ? e?.endDate : "now"}
+                            </td>
+                          </tr>
+                        ))
+                      : "none"}
+                  </tbody>
+                </table>
+              </div>
+              <div className="text-center p-4">
+                <span className="text-lg font-extrabold">
+                  committee memberships
+                </span>
+                <hr />
+                <table className="border-collapse table-auto w-full text-sm ">
+                  <thead>
+                    <tr>
+                      <th>Committee</th>
+                      <th>From</th>
+                      <th>Until </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data2.value.committeeMemberships[0]
+                      ? data2.value.committeeMemberships.map((e) => (
+                          <tr>
+                            <td className=" text-start">{e.name}</td>
+                            <td>{e.startDate}</td>
+                            <td className="">
+                              {e?.endDate ? e?.endDate : "now"}
+                            </td>
+                          </tr>
+                        ))
+                      : "none"}
+                  </tbody>
+                </table>
+              </div>
               {/* representations: {console.log(data2)} */}
               {/* representations: {data2.value.representations[0].name} */}
             </div>
