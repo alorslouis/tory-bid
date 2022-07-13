@@ -17,7 +17,9 @@ function candidateFormat(arr: string[]): candidacy {
   let candidate = arr[0];
   let supporters = [];
   for (let i = 1; i < arr.length; i++) {
-    supporters.push(arr[i]);
+    if (arr[i].match(/^\w+\s\w+/)) {
+      supporters.push(arr[i]);
+    }
   }
   return { candidate, support: supporters.length, supporters };
 }
@@ -119,6 +121,9 @@ const Home: NextPage = ({ data }) => {
           ))}
         </ul> */}
 
+        {/* old tile 
+        format here */}
+
         <div>
           <ul className="grid grid-cols-2 gap-4 mx-auto my-10">
             {leaderBids
@@ -171,32 +176,54 @@ const Home: NextPage = ({ data }) => {
           </ul>
         </div>
 
+        {/* new tile 
+        block here */}
+
         <div>
-          <ul className="grid grid-cols-2 gap-4 mx-auto my-10">
+          <ol className="grid grid-cols-2 gap-4 mx-auto my-10">
             {/* {leaderData ? leaderData?.map((item) => (
               <li key={item.candidate} className="list-none">
                 test
                 </li>
             ))} */}
-            {/* {console.log(leaderData)} */}
-            {leaderData.map((item) => (
-              <div className="flex-col">
-                <p>{item.candidate}</p>
-                <p>supporters: {item.support}</p>
-                {item.supporters?.map((item) => (
-                  <span>
-                    <Link
-                      href="/profile/[name]"
-                      as={`/profile/${encodeURIComponent(item)}`}
+            {console.log(leaderData)}
+            {leaderData.map((item) => {
+              return (
+                <li className="flex-col m-4">
+                  <Link
+                    href="/profile/[name]"
+                    as={`/profile/${encodeURIComponent(item.candidate)}`}
+                  >
+                    <h2 className="font-bold text-lg cursor-pointer">
+                      {item.candidate}
+                    </h2>
+                  </Link>
+                  <p>
+                    supporters:{" "}
+                    <span
+                      className={`
+                      ${
+                        item.support >= 30 ? "text-green-500" : "text-red-500"
+                      }`}
                     >
-                      {item}
-                    </Link>{" "}
-                    {" • "}
-                  </span>
-                ))}
-              </div>
-            ))}
-          </ul>
+                      {item.support}
+                    </span>
+                  </p>
+                  {item.supporters?.map((item) => (
+                    <span>
+                      <Link
+                        href="/profile/[name]"
+                        as={`/profile/${encodeURIComponent(item)}`}
+                      >
+                        {item}
+                      </Link>{" "}
+                      {" • "}
+                    </span>
+                  ))}
+                </li>
+              );
+            })}
+          </ol>
         </div>
 
         {/* <p>{leaderBids ? leaderBids[0]?.slice(1) : "fail"}</p> */}
