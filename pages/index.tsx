@@ -6,14 +6,28 @@ import styles from "../styles/Home.module.css";
 
 const dummyData = [{ id: 1, name: "rishi" }, { id: 2 }, { id: 3 }];
 
-type candidate = {
-  id: number;
-  name: string;
-};
-
 interface candidacy {
   candidate: string;
-  support: [count: number, supporters?: [supporter: string]];
+  support: number;
+  supporters: string[];
+  // support: support;
+}
+
+function candidateFormat(arr: string[]): candidacy {
+  let candidate = arr[0];
+  let supporters = [];
+  for (let i = 1; i < arr.length; i++) {
+    supporters.push(arr[i]);
+  }
+  return { candidate, support: supporters.length, supporters };
+}
+
+function formatData(arr): candidacy[] {
+  let newArray = [];
+  for (let i = 0; i < arr.length; i++) {
+    newArray.push(candidateFormat(arr[i]));
+  }
+  return newArray;
 }
 
 function leadershipTile(arr: string) {
@@ -80,6 +94,7 @@ const Home: NextPage = ({ data }) => {
   // }, []);
 
   const leaderBids = data.values;
+  const leaderData = formatData(leaderBids);
 
   return (
     <div className={styles.container}>
@@ -93,6 +108,9 @@ const Home: NextPage = ({ data }) => {
         <h1 className="text-8xl font-extrabold py-3">toryBids</h1>
 
         {/* <p>{dummyData[0].id}</p> */}
+
+        {/* {leaderData[1].support[1]} */}
+
         {/* <ul className="grid grid-cols-2 gap-4">
           {dummyData.map((item) => (
             <li key={item.id}>
@@ -100,6 +118,7 @@ const Home: NextPage = ({ data }) => {
             </li>
           ))}
         </ul> */}
+
         <div>
           <ul className="grid grid-cols-2 gap-4 mx-auto my-10">
             {leaderBids
@@ -130,11 +149,53 @@ const Home: NextPage = ({ data }) => {
 
                       <span className="text-gray-200 m-4">
                         {leadershipList(item)}
+
+                        {candidateFormat(item).support[1]?.map((item) => {
+                          return (
+                            <span>
+                              <Link
+                                href="/profile/[name]"
+                                as={`/profile/${encodeURIComponent(item)}`}
+                              >
+                                {item}
+                              </Link>{" "}
+                              •{" "}
+                            </span>
+                          );
+                        })}
                       </span>
                     </div>
                   </li>
                 ))
               : "loading..."}
+          </ul>
+        </div>
+
+        <div>
+          <ul className="grid grid-cols-2 gap-4 mx-auto my-10">
+            {/* {leaderData ? leaderData?.map((item) => (
+              <li key={item.candidate} className="list-none">
+                test
+                </li>
+            ))} */}
+            {/* {console.log(leaderData)} */}
+            {leaderData.map((item) => (
+              <div className="flex-col">
+                <p>{item.candidate}</p>
+                <p>supporters: {item.support}</p>
+                {item.supporters?.map((item) => (
+                  <span>
+                    <Link
+                      href="/profile/[name]"
+                      as={`/profile/${encodeURIComponent(item)}`}
+                    >
+                      {item}
+                    </Link>{" "}
+                    {" • "}
+                  </span>
+                ))}
+              </div>
+            ))}
           </ul>
         </div>
 
@@ -158,6 +219,7 @@ const Home: NextPage = ({ data }) => {
           </span>
           {"  "}+ GuidoFawkes
         </a>
+        <a href="https://github.com/alorslouis">github</a>
       </footer>
     </div>
   );
