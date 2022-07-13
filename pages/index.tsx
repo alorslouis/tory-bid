@@ -14,6 +14,9 @@ interface candidacy {
 
 function candidateFormat(arr: string[]): candidacy {
   let candidate = arr[0];
+  if (candidate == "Liz Truss") {
+    candidate = "Elizabeth Truss";
+  }
   // let candidateThumb = `https://members-api.parliament.uk/api/Members/${candidate}/Thumbnail`;
   let supporters = [];
   for (let i = 1; i < arr.length; i++) {
@@ -117,7 +120,7 @@ const Home: NextPage = ({ data }) => {
             {console.log(leaderData)}
             {leaderData.map((item) => {
               return (
-                <div className="relative flex m-4 m-auto bg-blue-400 p-4 rounded-3xl shadow-xl">
+                <div className="relative flex-auto m-auto bg-blue-400 p-4 rounded-3xl shadow-xl">
                   <li className="flex-col">
                     <Link
                       href="/profile/[name]"
