@@ -50,10 +50,14 @@ const Profile: NextPage = ({ data1, data2 }) => {
             <div className="flex-col m-4 p-4">
               get: {data1?.items[0].value.id},{" "}
               {data1?.items[0]?.value?.nameDisplayAs}
-              get2: {data2?.value[0]?.interests[0]?.interest}
-              {/* <div>get23: {for (let i = 0; i < data2.value.length; i++) {
-           
-        }}</div> */}
+              get2: {data2?.value.representations[0].name}
+              <p>
+                {data2.value.representations.map((i) => (
+                  <div>{i.additionalInfo}</div>
+                ))}
+              </p>
+              {/* representations: {console.log(data2)} */}
+              {/* representations: {data2.value.representations[0].name} */}
             </div>
           </div>
         </div>
@@ -69,9 +73,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   );
   const data1 = await res1?.json();
 
-  const res2 = await fetch([
-    `https://members-api.parliament.uk/api/Members/${data1?.items[0]?.value?.id}/RegisteredInterests`,
-  ]);
+  const res2 = await fetch(
+    `https://members-api.parliament.uk/api/Members/${data1?.items[0]?.value?.id}/Biography`
+  );
   const data2 = await res2?.json();
 
   // Pass data to the page via props
