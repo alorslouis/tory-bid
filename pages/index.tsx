@@ -4,8 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
 
-const dummyData = [{ id: 1, name: "rishi" }, { id: 2 }, { id: 3 }];
-
 interface candidacy {
   candidate: string;
   // candidateThumb: string;
@@ -19,7 +17,9 @@ function candidateFormat(arr: string[]): candidacy {
   // let candidateThumb = `https://members-api.parliament.uk/api/Members/${candidate}/Thumbnail`;
   let supporters = [];
   for (let i = 1; i < arr.length; i++) {
-    if (arr[i].match(/^\w+\s\w+/)) {
+    // little trick to drop those elements we don't want
+    if (arr[i].match(/undeclared/gim)) {
+    } else {
       supporters.push(arr[i]);
     }
   }
@@ -34,33 +34,11 @@ function formatData(arr): candidacy[] {
   return newArray;
 }
 
-function leadershipTile(arr: string) {
-  // const newArray = [];
-  for (let i = 1; i < arr.length; i++) {
-    // newArray.push(arr[i] + ", ");
-    return (
-      <Link
-        className="font-extrabold"
-        href="/profile/[name]"
-        as={`/profile/${encodeURIComponent(arr[i])}`}
-      >
-        {arr[i] + ","}
-      </Link>
-      // <Link
-      //   href={`https://members.parliament.uk/FindYourMP?SearchText=${arr[i]}`}
-      // >
-      //   <p>{}</p>
-      // </Link>
-    );
-  }
-  // return newArray;
-}
-
 // function to loop through the array and return a list of links
 function leadershipList(arr: string) {
   const newArray = [];
   for (let i = 1; i < arr.length; i++) {
-    if (arr[i].match(/^\w+\s\w+/)) {
+    if (arr[i].match(/^[\w+\s\w+]/)) {
       newArray.push(
         <Link
           className="font-extrabold"
@@ -126,58 +104,6 @@ const Home: NextPage = ({ data }) => {
         {/* old tile 
         format here */}
 
-        <div>
-          <ul className="grid grid-cols-2 gap-4 mx-auto my-10">
-            {leaderBids
-              ? leaderBids?.map((item) => (
-                  <li key={item} className="list-none">
-                    {/* {console.log(item)} */}
-                    <div className="flex  mx-4 flex-col m-auto bg-blue-400 p-4 rounded-md shadow-lg">
-                      {/* <div className="relative flex flex-auto"> */}
-                      {/* <Link
-                          className="font-extrabold"
-                          href={`https://members.parliament.uk/FindYourMP?SearchText=${item[0]}`}
-                        >
-                          {item[0].toUpperCase()}
-                        </Link> */}
-                      <Link
-                        href="/profile/[name]"
-                        as={`/profile/${encodeURIComponent(item[0])}`}
-                      >
-                        <h2 className="font-extrabold cursor-pointer">
-                          {item[0]?.toUpperCase()}
-                        </h2>
-                      </Link>
-                      {/* <p className="font-extralight px-2">
-                          supporters: {item?.slice(1)?.length}
-                        </p> */}
-                      {/* </div> */}
-                      {/* <p className="font-light">{item.slice(1)}</p> */}
-
-                      <span className="text-gray-200 m-4">
-                        {leadershipList(item)}
-
-                        {candidateFormat(item).support[1]?.map((item) => {
-                          return (
-                            <span>
-                              <Link
-                                href="/profile/[name]"
-                                as={`/profile/${encodeURIComponent(item)}`}
-                              >
-                                {item}
-                              </Link>{" "}
-                              •{" "}
-                            </span>
-                          );
-                        })}
-                      </span>
-                    </div>
-                  </li>
-                ))
-              : "loading..."}
-          </ul>
-        </div>
-
         {/* new tile 
         block here */}
 
@@ -197,13 +123,14 @@ const Home: NextPage = ({ data }) => {
                       href="/profile/[name]"
                       as={`/profile/${encodeURIComponent(item.candidate)}`}
                     >
-                      <h2 className="font-bold text-lg cursor-pointer">
+                      <h2 className="font-bold text-lg cursor-pointer py-2">
                         {item.candidate}
                       </h2>
                     </Link>
+                    <hr />
                     {/* {item.candidateThumb} */}
                     {/* <p className=""> */}
-                    supporters:{" "}
+                    {/* supporters:{" "} */}
                     <span
                       className={`bg-white p-4 m-6 rounded-full absolute -top-12 -right-12
                       ${
@@ -259,7 +186,7 @@ const Home: NextPage = ({ data }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   // Fetch data from external API
   const res = await fetch(
     `https://sheets.googleapis.com/v4/spreadsheets/1ffqemZ-YOi7AvAw8HbxmMd0vIbsOXLZ7KpAmNQPD2r8/values/First Round!A2:H?majorDimension=COLUMNS&key=${process.env.NEXT_PUBLIC_GKEY}`
