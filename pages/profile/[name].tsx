@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { GetServerSideProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import Layout from "../../components/layout";
 
 const Profile: NextPage = ({ data1, data2 }) => {
   const router = useRouter();
@@ -13,41 +14,43 @@ const Profile: NextPage = ({ data1, data2 }) => {
 
   return (
     <>
-      <div className=" m-4 bg-blue-400 rounded-xl text-zinc-200 min-h-screen">
-        <div className="lg:flex-col">
-          <div className="rounded-full cursor-pointer flex h-full pb-4">
-            <Link href="/">
-              <Image
-                src={data1?.items[0].value.thumbnailUrl}
-                width={300}
-                height={300}
-                objectFit="fill"
-              />
-            </Link>
-            <div className="p-4">
-              <p className="text-lg font-semibold">passed: {name}</p>
-              <p>
-                MP for{" "}
-                {data1?.items[0].value.latestHouseMembership.membershipFrom},
-                since{" "}
-                {
-                  data1?.items[0].value.latestHouseMembership
-                    .membershipStartDate
-                }
-              </p>
-            </div>
-          </div>{" "}
-          <hr className="bg-white" />
-          <div className="flex-col m-4">
-            get: {data1?.items[0].value.id},{" "}
-            {data1?.items[0]?.value?.nameDisplayAs}
-            get2: {data2?.value[0]?.interests[0]?.interest}
-            {/* <div>get23: {for (let i = 0; i < data2.value.length; i++) {
+      <Layout>
+        <div className=" m-4 bg-blue-400 rounded-xl text-zinc-200 ">
+          <div className="lg:flex-col">
+            <div className="rounded-full cursor-pointer flex h-full pb-4">
+              <Link href="/">
+                <Image
+                  src={data1?.items[0].value.thumbnailUrl}
+                  width={300}
+                  height={300}
+                  objectFit="fill"
+                />
+              </Link>
+              <div className="p-4">
+                <h1 className="text-4xl font-semibold">{name}</h1>
+                <p>
+                  MP for{" "}
+                  {data1?.items[0].value.latestHouseMembership.membershipFrom},
+                  since{" "}
+                  {
+                    data1?.items[0].value.latestHouseMembership
+                      .membershipStartDate
+                  }
+                </p>
+              </div>
+            </div>{" "}
+            <hr className="bg-white" />
+            <div className="flex-col m-4 p-4">
+              get: {data1?.items[0].value.id},{" "}
+              {data1?.items[0]?.value?.nameDisplayAs}
+              get2: {data2?.value[0]?.interests[0]?.interest}
+              {/* <div>get23: {for (let i = 0; i < data2.value.length; i++) {
            
         }}</div> */}
+            </div>
           </div>
         </div>
-      </div>
+      </Layout>
     </>
   );
 };
