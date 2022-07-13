@@ -12,30 +12,37 @@ const Profile: NextPage = ({ data1, data2 }) => {
 
   const member = [data1, data2];
 
+  const memberDate = new Date(
+    Date.parse(data1?.items[0].value.latestHouseMembership.membershipStartDate)
+  );
+
   return (
     <>
       <Layout>
         <div className=" m-4 bg-blue-400 rounded-xl text-zinc-200 ">
           <div className="lg:flex-col">
-            <div className="rounded-full cursor-pointer flex h-full pb-4">
-              <Link href="/">
-                <Image
-                  src={data1?.items[0].value.thumbnailUrl}
-                  width={300}
-                  height={300}
-                  objectFit="fill"
-                />
-              </Link>
+            <div className="rounded-full flex h-full pb-4">
+              <span className="cursor-pointer">
+                <Link href="/">
+                  <Image
+                    src={data1?.items[0].value.thumbnailUrl}
+                    width={300}
+                    height={300}
+                    objectFit="fill"
+                  />
+                </Link>
+              </span>
               <div className="p-4">
                 <h1 className="text-4xl font-semibold">{name}</h1>
                 <p>
                   MP for{" "}
-                  {data1?.items[0].value.latestHouseMembership.membershipFrom},
-                  since{" "}
-                  {
+                  {data1?.items[0].value.latestHouseMembership.membershipFrom} •
+                  member since{" "}
+                  {/* {
                     data1?.items[0].value.latestHouseMembership
                       .membershipStartDate
-                  }
+                  } */}
+                  {memberDate.getFullYear()}
                 </p>
               </div>
             </div>{" "}

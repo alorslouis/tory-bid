@@ -117,7 +117,7 @@ const Home: NextPage = ({ data }) => {
         block here */}
 
         {leaderData ? (
-          <ol className="grid sm:grid-cols-2 gap-4 mx-auto my-10">
+          <ol className="grid sm:grid-cols-2 gap-4 mx-auto ">
             {/* {leaderData ? leaderData?.map((item) => (
               <li key={item.candidate} className="list-none">
                 test
@@ -143,7 +143,7 @@ const Home: NextPage = ({ data }) => {
                     <span
                       className={`bg-white p-4 m-6 rounded-full absolute -top-12 -right-12
                       ${
-                        item.support >= 30 ? "text-green-500" : "text-red-500"
+                        item.support >= 30 ? "text-green-600" : "text-red-500"
                       }`}
                     >
                       {item.support}
@@ -202,7 +202,7 @@ const Home: NextPage = ({ data }) => {
 export const getServerSideProps: GetServerSideProps = async () => {
   // Fetch data from external API
   const res = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/1ffqemZ-YOi7AvAw8HbxmMd0vIbsOXLZ7KpAmNQPD2r8/values/Second Round!A2:F?majorDimension=COLUMNS&key=${process.env.NEXT_PUBLIC_GKEY}`
+    `https://sheets.googleapis.com/v4/spreadsheets/1ffqemZ-YOi7AvAw8HbxmMd0vIbsOXLZ7KpAmNQPD2r8/values/Second Round!A2:F?majorDimension=COLUMNS&key=${process.env.GKEY}`
   );
   const data = await res.json();
 
