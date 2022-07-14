@@ -127,7 +127,7 @@ const Home: NextPage = ({ data }) => {
             {leaderData.map((item) => {
               return (
                 <div className="relative flex-auto m-2 bg-blue-400 p-4 rounded-3xl shadow-xl">
-                  <li className="flex-col">
+                  <li key={item.candidate} className="flex-col">
                     <Link
                       href="/profile/[name]"
                       as={`/profile/${encodeURIComponent(item.candidate)}`}
