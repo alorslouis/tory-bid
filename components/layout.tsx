@@ -19,22 +19,33 @@ export default function Layout({ children }: { children?: ReactNode }) {
           </h1>
         </Link>
       </header>
-      <main className="p-4 container mx-auto">{children}</main>
-      <footer className={styles.footer}>
-        <a
+      <main className="p-4 container mx-auto min-h-screen">{children}</main>
+      <footer className="sticky bottom-0 flex bg-white p-6 align-middle justify-center">
+        {/* <a
           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
           target="_blank"
           rel="noopener noreferrer"
+          className="p-4 align-middle"
         >
           Powered by{" "}
           <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
+        </a> */}
+
+        <a href="https://order-order.com" className="p-4 align-middle">
+          leadership data from Guido Fawkes
         </a>
-        <a href="https://order-order.com">
-          candidate + support data from Guido Fawkes
+        <a href="https://www.parliament.uk/" className="p-4 align-middle">
+          member data from parliament.uk
         </a>
-        <a href="https://github.com/alorslouis">github</a>
+
+        <a
+          href="https://github.com/alorslouis/tory-bid"
+          className="p-4 align-middle"
+        >
+          GitHub
+        </a>
       </footer>
     </>
   );

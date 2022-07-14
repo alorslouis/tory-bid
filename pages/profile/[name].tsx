@@ -6,6 +6,16 @@ import Image from "next/image";
 import Link from "next/link";
 import Layout from "../../components/layout";
 
+function parseDate(date: string) {
+  const forDate = new Date(Date.parse(date));
+  const year = forDate.getFullYear();
+  const month = forDate.getMonth();
+  const day = forDate.getDate();
+  // const [year, month, day] = date.split("-");
+  return `${day}/${month}/${year}`;
+  // return forDate.getFullYear();
+}
+
 const Profile: NextPage = ({ data1, data2 }) => {
   const router = useRouter();
   const { name } = router.query;
@@ -77,7 +87,7 @@ const Profile: NextPage = ({ data1, data2 }) => {
                   <table className="border-collapse table-auto w-full text-sm">
                     <thead>
                       <tr>
-                        <th>Post</th>
+                        <th className="text-start">Post</th>
                         <th>From</th>
                         <th>Until </th>
                       </tr>
@@ -85,10 +95,14 @@ const Profile: NextPage = ({ data1, data2 }) => {
                     <tbody>
                       {data2.value.governmentPosts.map((e) => (
                         <tr>
-                          <td className="text-start">{e.name}</td>
-                          <td className="">{e.startDate}</td>
-                          <td className="">
-                            {e?.endDate ? e?.endDate : "now"}
+                          <td className="flex flex-auto p-2 text-start">
+                            {e.name}
+                          </td>
+                          <td className=" flex-auto p-2 text-center">
+                            {parseDate(e.startDate)}
+                          </td>
+                          <td className="flex-auto p-2 text-center">
+                            {e?.endDate ? parseDate(e?.endDate) : "now"}
                           </td>
                         </tr>
                       ))}
@@ -96,7 +110,7 @@ const Profile: NextPage = ({ data1, data2 }) => {
                   </table>
                 </div>
               ) : null}
-              <div className="text-center p-4">
+              <div className="text-center flex-1 p-4">
                 <span className="text-lg font-extrabold">
                   committee memberships
                 </span>
@@ -104,7 +118,7 @@ const Profile: NextPage = ({ data1, data2 }) => {
                 <table className="border-collapse table-auto w-full text-sm ">
                   <thead>
                     <tr>
-                      <th>Committee</th>
+                      <th className="text-start">Committee</th>
                       <th>From</th>
                       <th>Until </th>
                     </tr>
@@ -113,10 +127,14 @@ const Profile: NextPage = ({ data1, data2 }) => {
                     {data2.value.committeeMemberships[0]
                       ? data2.value.committeeMemberships.map((e) => (
                           <tr>
-                            <td className=" text-start">{e.name}</td>
-                            <td>{e.startDate}</td>
-                            <td className="">
-                              {e?.endDate ? e?.endDate : "now"}
+                            <td className="flex flex-auto p-2 text-start">
+                              {e.name}
+                            </td>
+                            <td className=" flex-auto p-2 text-center">
+                              {parseDate(e.startDate)}
+                            </td>
+                            <td className="flex-auto p-2 text-center">
+                              {e?.endDate ? parseDate(e?.endDate) : "now"}
                             </td>
                           </tr>
                         ))
@@ -151,10 +169,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return { props: { data1, data2 } };
   } catch (error) {
     return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
+      notFound: true,
     };
   }
 };
