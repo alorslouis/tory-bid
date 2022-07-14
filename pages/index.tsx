@@ -1,7 +1,13 @@
-import type { GetServerSideProps, NextPage } from "next";
+import type {
+  GetServerSideProps,
+  NextPage,
+  NextApiRequest,
+  NextApiResponse,
+} from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import { Props } from "next/script";
 import Layout from "../components/layout";
 import styles from "../styles/Home.module.css";
 
@@ -13,7 +19,19 @@ interface candidacy {
   // support: support;
 }
 
-function candidateFormat(arr: string[]) {
+interface resultValues {
+  candis: string[];
+}
+
+interface gValues {
+  data: {
+    range: string;
+    majorDimension: string;
+    values: resultValues[];
+  };
+}
+
+function candidateFormat(arr: any) {
   let candidate = arr[0];
   if (candidate == "Liz Truss") {
     candidate = "Elizabeth Truss";
@@ -31,42 +49,45 @@ function candidateFormat(arr: string[]) {
       }
     }
   }
-  return { candidate, support: supporters.length, supporters };
+  return { candidate, support: supporters.length, supporters: supporters };
 }
 
-function formatData(arr: string[]) {
-  let newArray = [];
-  for (let i = 0; i < arr.length; i++) {
-    newArray.push(candidateFormat(arr[i]));
-  }
+function formatData(arr: any) {
+  let newArray: any = [];
+  // for (let i = 0; i < arr.length; i++) {
+  //   newArray.push(candidateFormat(arr[i]));
+  // }
+  arr.forEach((element: string[]) => {
+    newArray.push(candidateFormat(element));
+  });
   return newArray;
 }
 
 // function to loop through the array and return a list of links
-function leadershipList(arr: string) {
-  const newArray = [];
-  for (let i = 1; i < arr.length; i++) {
-    if (arr[i].match(/^[\w+\s\w+]/)) {
-      newArray.push(
-        <Link
-          className="font-extrabold"
-          href="/profile/[name]"
-          as={`/profile/${encodeURIComponent(arr[i])}`}
-        >
-          {arr[i] + " • "}
-        </Link>
-      );
-    }
-  }
-  return (
-    <div>
-      supporters: {newArray.length}
-      <div className="text-center">{newArray}</div>
-    </div>
-  );
-}
+// function leadershipList(arr: string) {
+//   const newArray = [];
+//   for (let i = 1; i < arr.length; i++) {
+//     if (arr[i].match(/^[\w+\s\w+]/)) {
+//       newArray.push(
+//         <Link
+//           className="font-extrabold"
+//           href="/profile/[name]"
+//           as={`/profile/${encodeURIComponent(arr[i])}`}
+//         >
+//           {arr[i] + " • "}
+//         </Link>
+//       );
+//     }
+//   }
+//   return (
+//     <div>
+//       supporters: {newArray.length}
+//       <div className="text-center">{newArray}</div>
+//     </div>
+//   );
+// }
 
-const Home: NextPage = ({ data }) => {
+const Home: NextPage<gValues> = ({ data }) => {
   // const [leaderData, setLeaderData] = useState(null);
   // const [isLoading, setLoading] = useState(false);
 
@@ -84,7 +105,7 @@ const Home: NextPage = ({ data }) => {
   // }, []);
 
   // const leaderBids = data.values;
-  const leaderData = formatData(data.values);
+  const leaderData: candidacy[] = formatData(data.values);
 
   return (
     <>
