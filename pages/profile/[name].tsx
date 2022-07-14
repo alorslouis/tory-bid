@@ -40,6 +40,7 @@ const Profile: NextPage = ({ data1, data2, data3 }) => {
                     width={300}
                     height={300}
                     objectFit="fill"
+                    alt={name}
                   />
                 </Link>
               </span>
