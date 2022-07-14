@@ -126,44 +126,45 @@ const Home: NextPage = ({ data }) => {
             {/* {console.log(leaderData)} */}
             {leaderData.map((item) => {
               return (
-                <div className="relative flex-auto m-2 bg-blue-400 p-4 rounded-3xl shadow-xl">
-                  <li key={item.candidate} className="flex-col">
-                    <Link
-                      href="/profile/[name]"
-                      as={`/profile/${encodeURIComponent(item.candidate)}`}
-                    >
-                      <h2 className="font-bold text-lg cursor-pointer py-2">
-                        {item.candidate}
-                      </h2>
-                    </Link>
-                    <hr />
-                    {/* {item.candidateThumb} */}
-                    {/* <p className=""> */}
-                    {/* supporters:{" "} */}
-                    <span
-                      className={`bg-white p-4 m-6 rounded-full absolute -top-12 -right-12
+                <li
+                  key={item.candidate}
+                  className="flex-col relative flex-auto m-2 bg-blue-400 p-4 rounded-3xl shadow-xl"
+                >
+                  <Link
+                    href="/profile/[name]"
+                    as={`/profile/${encodeURIComponent(item.candidate)}`}
+                  >
+                    <h2 className="font-bold text-lg cursor-pointer py-2">
+                      {item.candidate}
+                    </h2>
+                  </Link>
+                  <hr />
+                  {/* {item.candidateThumb} */}
+                  {/* <p className=""> */}
+                  {/* supporters:{" "} */}
+                  <span
+                    className={`bg-white p-4 m-6 rounded-full absolute -top-12 -right-12
                       ${
                         item.support >= 30 ? "text-green-600" : "text-red-500"
                       }`}
-                    >
-                      {item.support}
-                    </span>
-                    {/* </p> */}
-                    <div className="p-4 text-center text-neutral-100">
-                      {item.supporters?.map((item) => (
-                        <span>
-                          <Link
-                            href="/profile/[name]"
-                            as={`/profile/${encodeURIComponent(item)}`}
-                          >
-                            {item}
-                          </Link>{" "}
-                          {" • "}
-                        </span>
-                      ))}
-                    </div>
-                  </li>
-                </div>
+                  >
+                    {item.support}
+                  </span>
+                  {/* </p> */}
+                  <div className="p-4 text-center text-neutral-100">
+                    {item.supporters?.map((item, index) => (
+                      <span key={index}>
+                        <Link
+                          href="/profile/[name]"
+                          as={`/profile/${encodeURIComponent(item)}`}
+                        >
+                          {item}
+                        </Link>{" "}
+                        {" • "}
+                      </span>
+                    ))}
+                  </div>
+                </li>
               );
             })}
           </ol>

@@ -113,7 +113,7 @@ const Profile: NextPage = ({ data1, data2, data3 }) => {
                     </thead>
                     <tbody>
                       {data2.value.governmentPosts.map((e) => (
-                        <tr>
+                        <tr key={e.name}>
                           <td className="flex flex-auto w-3/4 py-1 text-start">
                             {e.name}
                           </td>
@@ -145,7 +145,7 @@ const Profile: NextPage = ({ data1, data2, data3 }) => {
                   <tbody>
                     {data2.value.committeeMemberships[0]
                       ? data2.value.committeeMemberships.map((e) => (
-                          <tr>
+                          <tr key={e.name}>
                             <td className="flex flex-auto w-3/4 py-1 text-start">
                               {e.name}
                             </td>
