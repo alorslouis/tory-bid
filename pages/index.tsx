@@ -13,7 +13,7 @@ interface candidacy {
   // support: support;
 }
 
-function candidateFormat(arr) {
+function candidateFormat(arr: string[]) {
   let candidate = arr[0];
   if (candidate == "Liz Truss") {
     candidate = "Elizabeth Truss";
