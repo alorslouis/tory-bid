@@ -34,7 +34,7 @@ function candidateFormat(arr: string[]) {
   return { candidate, support: supporters.length, supporters };
 }
 
-function formatData(arr) {
+function formatData(arr: string[]) {
   let newArray = [];
   for (let i = 0; i < arr.length; i++) {
     newArray.push(candidateFormat(arr[i]));
