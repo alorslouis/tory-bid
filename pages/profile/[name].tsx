@@ -21,7 +21,7 @@ const Profile: NextPage = ({ data1, data2, data3 }) => {
   const { name } = router.query;
 
   const member = [data1, data2, { contact: data3 }];
-  console.log(member);
+  // console.log(member);
 
   const memberDate = new Date(
     Date.parse(data1?.items[0].value.latestHouseMembership.membershipStartDate)
@@ -59,7 +59,7 @@ const Profile: NextPage = ({ data1, data2, data3 }) => {
               </div>
             </div>{" "}
             <hr className="bg-white" />
-            <div className="flex-col m-4 p-4">
+            <div className="flex-col m-4">
               {/* get: {data1?.items[0].value.id},{" "}
               {data1?.items[0]?.value?.nameDisplayAs}
               get2: {data2?.value.representations[0].name} */}
@@ -67,12 +67,23 @@ const Profile: NextPage = ({ data1, data2, data3 }) => {
                 {/* {data2.value.representations.map((i) => (
                   <div>{i.additionalInfo}</div>
                 ))} */}
-                <div className="flex justify-between">
-                  {member[2].contact.value.map((e) => (
-                    // <div className="p-2">
-                    <a href={e.line1}>{e.type}</a>
+                <div className="flex justify-evenly p-2">
+                  {member[2].contact.value.map(
+                    (e) => {
+                      // <div className="p-2">
+                      if (
+                        e.type === "Parliamentary" ||
+                        e.type === "Constituency"
+                      ) {
+                        {
+                          // return <span>{e.type}</span>;
+                        }
+                      } else {
+                        return <a href={e.line1}>{e.type}</a>;
+                      }
+                    }
                     // </div>
-                  ))}
+                  )}
                 </div>
               </div>
               {/* <div>
