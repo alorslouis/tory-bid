@@ -46,14 +46,14 @@ const Profile: NextPage = ({ data1, data2 }) => {
                 <h1 className="text-4xl font-semibold">{name}</h1>
                 <p>
                   MP for{" "}
-                  {data1?.items[0].value.latestHouseMembership.membershipFrom} •
-                  member since{" "}
+                  {data1?.items[0].value.latestHouseMembership.membershipFrom}
                   {/* {
                     data1?.items[0].value.latestHouseMembership
                       .membershipStartDate
                   } */}
-                  {memberDate.getFullYear()}
                 </p>
+                Member since {memberDate.getFullYear()}
+                <p></p>
                 <p>{data2?.value.representations[0].additionalInfo}</p>
               </div>
             </div>{" "}
@@ -84,7 +84,7 @@ const Profile: NextPage = ({ data1, data2 }) => {
                     government posts
                   </span>
                   <hr />
-                  <table className="border-collapse table-auto w-full text-sm">
+                  <table className="border-collapse flex-col table-auto w-full text-sm">
                     <thead>
                       <tr>
                         <th className="text-start">Post</th>
@@ -95,13 +95,13 @@ const Profile: NextPage = ({ data1, data2 }) => {
                     <tbody>
                       {data2.value.governmentPosts.map((e) => (
                         <tr>
-                          <td className="flex flex-auto p-2 text-start">
+                          <td className="flex flex-auto p-2 w-3/4  text-start">
                             {e.name}
                           </td>
-                          <td className=" flex-auto p-2 text-center">
+                          <td className=" p-2 text-center">
                             {parseDate(e.startDate)}
                           </td>
-                          <td className="flex-auto p-2 text-center">
+                          <td className="p-2 text-center">
                             {e?.endDate ? parseDate(e?.endDate) : "now"}
                           </td>
                         </tr>
@@ -115,7 +115,7 @@ const Profile: NextPage = ({ data1, data2 }) => {
                   committee memberships
                 </span>
                 <hr />
-                <table className="border-collapse table-auto w-full text-sm ">
+                <table className="border-collapse flex-col table-auto w-full text-sm ">
                   <thead>
                     <tr>
                       <th className="text-start">Committee</th>
@@ -127,13 +127,13 @@ const Profile: NextPage = ({ data1, data2 }) => {
                     {data2.value.committeeMemberships[0]
                       ? data2.value.committeeMemberships.map((e) => (
                           <tr>
-                            <td className="flex flex-auto p-2 text-start">
+                            <td className="flex flex-auto p-2 w-3/4 text-start">
                               {e.name}
                             </td>
-                            <td className=" flex-auto p-2 text-center">
+                            <td className="  p-2 text-center">
                               {parseDate(e.startDate)}
                             </td>
-                            <td className="flex-auto p-2 text-center">
+                            <td className=" p-2 text-center">
                               {e?.endDate ? parseDate(e?.endDate) : "now"}
                             </td>
                           </tr>
