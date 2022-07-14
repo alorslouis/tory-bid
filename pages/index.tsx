@@ -117,7 +117,7 @@ const Home: NextPage = ({ data }) => {
         block here */}
 
         {leaderData ? (
-          <ol className="grid sm:grid-cols-2 gap-4 mx-auto ">
+          <ol className="grid lg:grid-cols-2 gap-4 mx-auto ">
             {/* {leaderData ? leaderData?.map((item) => (
               <li key={item.candidate} className="list-none">
                 test

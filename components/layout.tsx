@@ -14,13 +14,13 @@ export default function Layout({ children }: { children?: ReactNode }) {
       </Head>
       <header>
         <Link href="/">
-          <h1 className="text-8xl font-extrabold p-4 cursor-pointer mx-auto text-center">
+          <h1 className="text-4xl lg:text-8xl font-extrabold p-4 my-2 cursor-pointer mx-auto text-center">
             toryBids
           </h1>
         </Link>
       </header>
       <main className="p-4 container mx-auto min-h-screen">{children}</main>
-      <footer className="sticky bottom-0 flex bg-white p-6 align-middle justify-center">
+      <footer className="sticky bottom-0 flex bg-white p-2 text-center text-sm align-middle justify-evenly">
         {/* <a
           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
           target="_blank"
@@ -34,10 +34,10 @@ export default function Layout({ children }: { children?: ReactNode }) {
         </a> */}
 
         <a href="https://order-order.com" className="p-4 align-middle">
-          leadership data from Guido Fawkes
+          leader data: Guido Fawkes
         </a>
         <a href="https://www.parliament.uk/" className="p-4 align-middle">
-          member data from parliament.uk
+          member data: parliament.uk
         </a>
 
         <a

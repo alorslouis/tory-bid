@@ -16,11 +16,12 @@ function parseDate(date: string) {
   // return forDate.getFullYear();
 }
 
-const Profile: NextPage = ({ data1, data2 }) => {
+const Profile: NextPage = ({ data1, data2, data3 }) => {
   const router = useRouter();
   const { name } = router.query;
 
-  const member = [data1, data2];
+  const member = [data1, data2, { contact: data3 }];
+  console.log(member);
 
   const memberDate = new Date(
     Date.parse(data1?.items[0].value.latestHouseMembership.membershipStartDate)
@@ -59,13 +60,20 @@ const Profile: NextPage = ({ data1, data2 }) => {
             </div>{" "}
             <hr className="bg-white" />
             <div className="flex-col m-4 p-4">
-              get: {data1?.items[0].value.id},{" "}
+              {/* get: {data1?.items[0].value.id},{" "}
               {data1?.items[0]?.value?.nameDisplayAs}
-              get2: {data2?.value.representations[0].name}
-              <div>
-                {data2.value.representations.map((i) => (
+              get2: {data2?.value.representations[0].name} */}
+              <div className="flex-col">
+                {/* {data2.value.representations.map((i) => (
                   <div>{i.additionalInfo}</div>
-                ))}
+                ))} */}
+                <div className="flex justify-between">
+                  {member[2].contact.value.map((e) => (
+                    // <div className="p-2">
+                    <a href={e.line1}>{e.type}</a>
+                    // </div>
+                  ))}
+                </div>
               </div>
               {/* <div>
                 <span className="text-lg">government posts: </span>
@@ -79,7 +87,7 @@ const Profile: NextPage = ({ data1, data2 }) => {
                   : "none"}
               </div> */}
               {data2.value.governmentPosts[0] ? (
-                <div className="text-center flex-1 p-4">
+                <div className="text-center flex-1">
                   <span className="text-lg font-extrabold">
                     government posts
                   </span>
@@ -95,13 +103,13 @@ const Profile: NextPage = ({ data1, data2 }) => {
                     <tbody>
                       {data2.value.governmentPosts.map((e) => (
                         <tr>
-                          <td className="flex flex-auto p-2 w-3/4  text-start">
+                          <td className="flex flex-auto w-3/4 py-1 text-start">
                             {e.name}
                           </td>
-                          <td className=" p-2 text-center">
+                          <td className="  py-1 text-center">
                             {parseDate(e.startDate)}
                           </td>
-                          <td className="p-2 text-center">
+                          <td className=" py-1 text-center">
                             {e?.endDate ? parseDate(e?.endDate) : "now"}
                           </td>
                         </tr>
@@ -110,7 +118,7 @@ const Profile: NextPage = ({ data1, data2 }) => {
                   </table>
                 </div>
               ) : null}
-              <div className="text-center flex-1 p-4">
+              <div className="text-center flex-1">
                 <span className="text-lg font-extrabold">
                   committee memberships
                 </span>
@@ -127,13 +135,13 @@ const Profile: NextPage = ({ data1, data2 }) => {
                     {data2.value.committeeMemberships[0]
                       ? data2.value.committeeMemberships.map((e) => (
                           <tr>
-                            <td className="flex flex-auto p-2 w-3/4 text-start">
+                            <td className="flex flex-auto w-3/4 py-1 text-start">
                               {e.name}
                             </td>
-                            <td className="  p-2 text-center">
+                            <td className="   py-1 text-center">
                               {parseDate(e.startDate)}
                             </td>
-                            <td className=" p-2 text-center">
+                            <td className="  py-1 text-center">
                               {e?.endDate ? parseDate(e?.endDate) : "now"}
                             </td>
                           </tr>
@@ -165,8 +173,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     );
     const data2 = await res2?.json();
 
+    const res3 = await fetch(
+      `https://members-api.parliament.uk/api/Members/${data1?.items[0]?.value?.id}/Contact`
+    );
+    const data3 = await res3?.json();
+
     // Pass data to the page via props
-    return { props: { data1, data2 } };
+    return { props: { data1, data2, data3 } };
   } catch (error) {
     return {
       notFound: true,
