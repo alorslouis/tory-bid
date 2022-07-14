@@ -203,7 +203,7 @@ const Home: NextPage = ({ data }) => {
 export const getServerSideProps: GetServerSideProps = async () => {
   // Fetch data from external API
   const res = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/1ffqemZ-YOi7AvAw8HbxmMd0vIbsOXLZ7KpAmNQPD2r8/values/Second Round!A2:F?majorDimension=COLUMNS&key=${process.env.GKEY}`
+    `https://sheets.googleapis.com/v4/spreadsheets/1ffqemZ-YOi7AvAw8HbxmMd0vIbsOXLZ7KpAmNQPD2r8/values/Third Round!B2:F?majorDimension=COLUMNS&key=${process.env.GKEY}`
   );
   const data = await res.json();
 
