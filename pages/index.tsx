@@ -223,11 +223,15 @@ const Home: NextPage<gValues> = ({ data }) => {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   // Fetch data from external API
-  const res = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/1ffqemZ-YOi7AvAw8HbxmMd0vIbsOXLZ7KpAmNQPD2r8/values/Third Round!B2:F?majorDimension=COLUMNS&key=${process.env.GKEY}`
-  );
-  const data = await res.json();
+  const sheet = "Third Round";
+  const range = "B2:F";
 
+  const res = await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/1ffqemZ-YOi7AvAw8HbxmMd0vIbsOXLZ7KpAmNQPD2r8/values/${sheet}!${range}?majorDimension=COLUMNS&key=${process.env.GKEY}`
+  );
+
+  const data = (await res.json()) as gValues;
+  // console.log(data);
   // Pass data to the page via props
   return { props: { data } };
 };
