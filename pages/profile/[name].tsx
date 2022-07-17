@@ -145,6 +145,24 @@ export type BioSchema = {
   };
 };
 
+export type ContactType = {
+  type: string;
+  typeDescription: string | undefined;
+  typeId: number;
+  isPreferred: boolean;
+  isWebAddress: boolean;
+  notes: string | undefined;
+  line1: string | undefined;
+  line2: string | undefined;
+  line3: string | undefined;
+  line4: string | undefined;
+  line5: string | undefined;
+  postcode: string | undefined;
+  phone: string | undefined;
+  fax: string | undefined;
+  email: string | undefined;
+};
+
 // export const getServerSideProps: GetServerSideProps = async (context) => {
 //   // try {
 //     const res1 = await fetch(
@@ -199,9 +217,15 @@ function Profile({
     `https://members-api.parliament.uk/api/Members/${data1?.items[0]?.value?.id}/Biography`,
     fetcher
   );
+  const { data: contact } = useSWR(
+    `https://members-api.parliament.uk/api/Members/${data1?.items[0]?.value?.id}/Contact`,
+    fetcher
+  );
 
   const bioData: BioSchema = data;
+  const contactData = contact;
   console.log(bioData);
+  console.log(contactData);
 
   // const member = { data1 };
   // console.log(member);
@@ -234,11 +258,11 @@ function Profile({
       <>
         <Layout>
           {/* <div className="lg:flex-col">{data11.items.value}</div> */}
-          <div className="lg:flex-col">{name}</div>
+          {/* <div className="lg:flex-col">{name}</div>
           <div className="lg:flex-col">{data1?.items[0]?.value?.id}</div>
           <div className="lg:flex-col">
             {data1?.items[0]?.value?.nameListAs}
-          </div>
+          </div> */}
           <div className=" m-4 bg-blue-400 rounded-xl text-zinc-200 ">
             <div className="lg:flex-col">
               <div className="rounded-full flex h-full pb-4">
@@ -268,9 +292,21 @@ function Profile({
                   {/* <p>{data2?.value.representations[0].additionalInfo}</p> */}
                   <p>{data?.value.representations[0].additionalInfo}</p>
                 </div>
-                <hr className="bg-white" />
                 {/* <div>{bioData.value.representations[0].id}</div> */}
               </div>
+              <hr className="bg-white" />
+
+              <div className="flex justify-between p-4">
+                {contact?.value.map((e: ContactType) => {
+                  if (e.type === "Parliamentary" || e.type === "Constituency") {
+                    return <span>{e.type}</span>;
+                  } else {
+                    return <a href={e.line1}>{e.type}</a>;
+                  }
+                })}
+              </div>
+              <hr className="bg-white" />
+              <p>test</p>
             </div>
           </div>
         </Layout>
