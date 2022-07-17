@@ -88,22 +88,6 @@ function formatData(arr: any) {
 // }
 
 const Home: NextPage<gValues> = ({ data }) => {
-  // const [leaderData, setLeaderData] = useState(null);
-  // const [isLoading, setLoading] = useState(false);
-
-  // useEffect(() => {
-  //   setLoading(true);
-  //   fetch(
-  //     `https://sheets.googleapis.com/v4/spreadsheets/1ffqemZ-YOi7AvAw8HbxmMd0vIbsOXLZ7KpAmNQPD2r8/values/MP Round!A3:K?majorDimension=COLUMNS&valueRenderOption=FORMULA&key=${process.env.NEXT_PUBLIC_GKEY}`
-  //     // requestOptions
-  //   )
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setLeaderData(data.values);
-  //       setLoading(false);
-  //     });
-  // }, []);
-
   // const leaderBids = data.values;
   const leaderData: candidacy[] = formatData(data.values);
 
