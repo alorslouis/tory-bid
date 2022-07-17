@@ -148,51 +148,65 @@ function Profile({
     );
   }
 
-  return (
-    <>
-      <Layout>
-        {/* <div className="lg:flex-col">{data1.items.value}</div> */}
-        <div className="lg:flex-col">{name}</div>
-        <div className="lg:flex-col">{data?.items[0]?.value?.id}</div>
-        <div className="lg:flex-col">{data?.items[0]?.value?.nameListAs}</div>
-        <div className=" m-4 bg-blue-400 rounded-xl text-zinc-200 ">
-          <div className="lg:flex-col">
-            <div className="rounded-full flex h-full pb-4">
-              <span className="cursor-pointer">
-                <Link href="/">
-                  <Image
-                    src={data.items[0].value.thumbnailUrl}
-                    width={300}
-                    height={300}
-                    objectFit="fill"
-                  />
-                </Link>
-              </span>
-              <div className="p-4">
-                <h1 className="text-4xl font-semibold">{name}</h1>
-                <p>
-                  MP for{" "}
-                  {data.items[0].value.latestHouseMembership.membershipFrom}
-                  {/* {
+  {
+    useEffect(() => {
+      setLoading(true);
+      fetch("/api/profile-data")
+        .then((res) => res.json())
+        .then((data) => {
+          setData(data);
+          setLoading(false);
+        });
+    }, []);
+
+    if (isLoading) return <p>Loading...</p>;
+    if (!data) return <p>No profile data</p>;
+    return (
+      <>
+        <Layout>
+          {/* <div className="lg:flex-col">{data1.items.value}</div> */}
+          <div className="lg:flex-col">{name}</div>
+          <div className="lg:flex-col">{data?.items[0]?.value?.id}</div>
+          <div className="lg:flex-col">{data?.items[0]?.value?.nameListAs}</div>
+          <div className=" m-4 bg-blue-400 rounded-xl text-zinc-200 ">
+            <div className="lg:flex-col">
+              <div className="rounded-full flex h-full pb-4">
+                <span className="cursor-pointer">
+                  <Link href="/">
+                    <Image
+                      src={data.items[0].value.thumbnailUrl}
+                      width={300}
+                      height={300}
+                      objectFit="fill"
+                    />
+                  </Link>
+                </span>
+                <div className="p-4">
+                  <h1 className="text-4xl font-semibold">{name}</h1>
+                  <p>
+                    MP for{" "}
+                    {data.items[0].value.latestHouseMembership.membershipFrom}
+                    {/* {
                     data1?.items[0].value.latestHouseMembership
                       .membershipStartDate
                   } */}
-                </p>
-                {/* Member since {memberDate.getFullYear()} */}
-                <p></p>
-                {/* <p>{data2?.value.representations[0].additionalInfo}</p> */}
-              </div>
-            </div>{" "}
-            <hr className="bg-white" />
+                  </p>
+                  {/* Member since {memberDate.getFullYear()} */}
+                  <p></p>
+                  {/* <p>{data2?.value.representations[0].additionalInfo}</p> */}
+                </div>
+              </div>{" "}
+              <hr className="bg-white" />
+            </div>
           </div>
-        </div>
-        {/* {data.items} */}
-        {/* <div className="lg:flex-col">{data1.values}</div> */}
-        {/* {data1.items.value} */}
-        {/* <div className="lg:flex-col">{data1.value.id}</div> */}
-      </Layout>
-    </>
-  );
+          {/* {data.items} */}
+          {/* <div className="lg:flex-col">{data1.values}</div> */}
+          {/* {data1.items.value} */}
+          {/* <div className="lg:flex-col">{data1.value.id}</div> */}
+        </Layout>
+      </>
+    );
+  }
 }
 
 // type profileVal = z.infer<typeof profileSchemer>;
