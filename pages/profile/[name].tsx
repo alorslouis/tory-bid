@@ -101,15 +101,22 @@ type RootSchema = {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   // Fetch data from external API
 
-  const res = await fetch(
-    `https://members-api.parliament.uk/api/Members/Search?Name=${context?.params?.name}`
-  );
+  try {
+    const res = await fetch(
+      `https://members-api.parliament.uk/api/Members/Search?Name=${context?.params?.name}`
+    );
+    const data = (await res.json()) as RootSchema;
+    console.log(data);
 
-  const data = (await res.json()) as RootSchema;
+    return { props: { data } };
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
   // console.log(data.items);
   // console.log(data);
   // Pass data to the page via props
-  return { props: { data } };
 };
 
 function Profile({
@@ -123,17 +130,34 @@ function Profile({
   // const memberDate = new Date(
   //   Date.parse(data1.value.latestHouseMembership.membershipStartDate)
   // );
+
+  if (!data?.items[0]?.value?.id) {
+    return (
+      <>
+        <Layout>
+          <div className="container text-center">
+            <div>
+              <span className="font-bold italic">{name}</span> not found...
+            </div>
+            <Link href="/">
+              <div>return home</div>
+            </Link>
+          </div>
+        </Layout>
+      </>
+    );
+  }
+
   return (
     <>
       <Layout>
         {/* <div className="lg:flex-col">{data1.items.value}</div> */}
         <div className="lg:flex-col">{name}</div>
-        <div className="lg:flex-col">{data.items[0].value.id}</div>
-        <div className="lg:flex-col">{data.items[0].value.nameListAs}</div>
+        <div className="lg:flex-col">{data?.items[0]?.value?.id}</div>
+        <div className="lg:flex-col">{data?.items[0]?.value?.nameListAs}</div>
         {/* {data.items} */}
         {/* <div className="lg:flex-col">{data1.values}</div> */}
         {/* {data1.items.value} */}
-
         {/* <div className="lg:flex-col">{data1.value.id}</div> */}
       </Layout>
     </>
