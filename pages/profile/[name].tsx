@@ -163,6 +163,16 @@ export type ContactType = {
   email: string | undefined;
 };
 
+export interface GovernmentPost {
+  house: number;
+  name: string;
+  id: number;
+  startDate: string;
+  endDate?: string;
+  additionalInfo: string;
+  additionalInfoLink: string;
+}
+
 // export const getServerSideProps: GetServerSideProps = async (context) => {
 //   // try {
 //     const res1 = await fetch(
@@ -296,7 +306,7 @@ function Profile({
               </div>
               <hr className="bg-white" />
 
-              <div className="flex justify-between p-4">
+              <div className="flex flex-col md:flex-row text-center justify-between p-4">
                 {contact?.value.map((e: ContactType) => {
                   if (e.type === "Parliamentary" || e.type === "Constituency") {
                     return <span>{e.type}</span>;
@@ -306,7 +316,39 @@ function Profile({
                 })}
               </div>
               <hr className="bg-white" />
-              <p>test</p>
+
+              {data?.value?.governmentPosts[0] ? (
+                <div className="text-center flex-1">
+                  <span className="text-lg font-extrabold">
+                    government posts
+                  </span>
+                  <hr />
+                  <table className="border-collapse flex-col table-auto w-full text-sm">
+                    <thead>
+                      <tr>
+                        <th className="text-start">Post</th>
+                        <th>From</th>
+                        <th>Until </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {data.value.governmentPosts.map((e: GovernmentPost) => (
+                        <tr key={e.id}>
+                          <td className="flex flex-auto w-3/4 py-1 text-start">
+                            {e.name}
+                          </td>
+                          <td className="  py-1 text-center">
+                            {parseDate(e.startDate)}
+                          </td>
+                          <td className=" py-1 text-center">
+                            {e?.endDate ? parseDate(e?.endDate) : "now"}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : null}
             </div>
           </div>
         </Layout>
