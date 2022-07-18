@@ -20,10 +20,10 @@ export default function Layout({
         <link rel="icon" href="/favicon.png" />
         <meta property="og:title" content="Follow the Tory Leader bids here" />
         <meta property="og:type" content="website" />
-        <meta
+        {/* <meta
           property="og:image"
-          content="http://localhost:3000/number10Bids.png"
-        />
+          content="http://localhost:3000/number10Bids.png" */}
+        {/* /> */}
         {/* <meta
           property="og:url"
           content="https://www.imdb.com/title/tt0117500/"
@@ -33,19 +33,19 @@ export default function Layout({
         // description="This example uses more of the available config options."
         // canonical="https://www.canonical.ie/"
         openGraph={{
-          url: "https://torybids.vercel.app",
+          url: "https://torybid.vercel.app",
           title: "Tory Leadership Bids",
-          description: "Open Graph Description",
+          // description: "Open Graph Description",
           images: [
             {
-              url: "https://torybids.vercel.app/number10Bids.png",
+              url: "https://torybid.vercel.app/number10Bids.png",
               width: 1200,
               height: 630,
               alt: "Og Image Alt",
               type: "image/png",
             },
           ],
-          site_name: "SiteName",
+          site_name: "toryBid",
         }}
         // twitter={{
         //   handle: "@handle",
