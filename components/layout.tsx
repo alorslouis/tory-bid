@@ -38,7 +38,7 @@ export default function Layout({
           // description: "Open Graph Description",
           images: [
             {
-              url: "https://torybid.vercel.app/number10Bids.png",
+              url: "https://torybid.vercel.app/num10Bids.png",
               width: 1200,
               height: 630,
               alt: "Og Image Alt",
