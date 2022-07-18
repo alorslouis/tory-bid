@@ -283,7 +283,7 @@ function Profile({
                       width={300}
                       height={300}
                       objectFit="fill"
-                      alt={name}
+                      alt={data1.items[0].value.name}
                     />
                   </Link>
                 </span>
@@ -345,7 +345,7 @@ function Profile({
                         cy="12"
                         r="10"
                         stroke="currentColor"
-                        stroke-width="4"
+                        strokeWidth="4"
                       ></circle>
                       <path
                         className="opacity-75"
