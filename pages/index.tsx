@@ -210,11 +210,11 @@ const Home: NextPage<gValues> = ({ data }) => {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   // Fetch data from external API
-  const sheet = "Third Round";
-  const range = "B2:F";
+  const sheet = "Fourth Round";
+  const range = "B2:E";
 
   const res = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/1ffqemZ-YOi7AvAw8HbxmMd0vIbsOXLZ7KpAmNQPD2r8/values/${sheet}!${range}?majorDimension=COLUMNS&key=${process.env.GKEY}`
+    `https://sheets.googleapis.com/v4/spreadsheets/1ffqemZ-YOi7AvAw8HbxmMd0vIbsOXLZ7KpAmNQPD2r8/values/!${range}?majorDimension=COLUMNS&key=${process.env.GKEY}`
   );
 
   const data = (await res.json()) as gValues;
