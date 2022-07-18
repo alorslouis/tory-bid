@@ -234,8 +234,8 @@ function Profile({
 
   const bioData: BioSchema = data;
   const contactData = contact;
-  console.log(bioData);
-  console.log(contactData);
+  // console.log(bioData);
+  // console.log(contactData);
 
   // const member = { data1 };
   // console.log(member);
@@ -266,14 +266,14 @@ function Profile({
   {
     return (
       <>
-        <Layout>
+        <Layout title={name}>
           {/* <div className="lg:flex-col">{data11.items.value}</div> */}
           {/* <div className="lg:flex-col">{name}</div>
           <div className="lg:flex-col">{data1?.items[0]?.value?.id}</div>
           <div className="lg:flex-col">
             {data1?.items[0]?.value?.nameListAs}
           </div> */}
-          <div className=" m-4 bg-blue-400 rounded-xl text-zinc-200 ">
+          <div className="bg-blue-400 rounded-xl text-zinc-200 pb-1 ">
             <div className="lg:flex-col">
               <div className="rounded-full flex h-full pb-4">
                 <span className="cursor-pointer">
@@ -283,6 +283,7 @@ function Profile({
                       width={300}
                       height={300}
                       objectFit="fill"
+                      alt={name}
                     />
                   </Link>
                 </span>
@@ -297,6 +298,13 @@ function Profile({
                       .membershipStartDate
                   } */}
                   </p>
+                  <p>
+                    Member since:{" "}
+                    {parseDate(
+                      data1.items[0].value.latestHouseMembership
+                        .membershipStartDate
+                    )}
+                  </p>
                   {/* Member since {memberDate.getFullYear()} */}
                   {/* <p>{data.value[0].type}</p> */}
                   {/* <p>{data2?.value.representations[0].additionalInfo}</p> */}
@@ -306,10 +314,15 @@ function Profile({
               </div>
               <hr className="bg-white" />
 
-              <div className="flex flex-col md:flex-row text-center justify-between p-4">
+              {/* contact */}
+              <div className="flex  text-center justify-evenly p-4">
                 {contact?.value.map((e: ContactType) => {
-                  if (e.type === "Parliamentary" || e.type === "Constituency") {
-                    return <span>{e.type}</span>;
+                  if (
+                    e.type === "Parliamentary" ||
+                    e.type === "Constituency" ||
+                    e.type === "Departmental"
+                  ) {
+                    return null;
                   } else {
                     return <a href={e.line1}>{e.type}</a>;
                   }
@@ -317,38 +330,99 @@ function Profile({
               </div>
               <hr className="bg-white" />
 
-              {data?.value?.governmentPosts[0] ? (
-                <div className="text-center flex-1">
-                  <span className="text-lg font-extrabold">
-                    government posts
-                  </span>
-                  <hr />
-                  <table className="border-collapse flex-col table-auto w-full text-sm">
-                    <thead>
-                      <tr>
-                        <th className="text-start">Post</th>
-                        <th>From</th>
-                        <th>Until </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {data.value.governmentPosts.map((e: GovernmentPost) => (
-                        <tr key={e.id}>
-                          <td className="flex flex-auto w-3/4 py-1 text-start">
-                            {e.name}
-                          </td>
-                          <td className="  py-1 text-center">
-                            {parseDate(e.startDate)}
-                          </td>
-                          <td className=" py-1 text-center">
-                            {e?.endDate ? parseDate(e?.endDate) : "now"}
-                          </td>
+              <div>
+                {!data && (
+                  <div className="flex items-center justify-center py-4">
+                    <svg
+                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        stroke-width="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                  </div>
+                )}
+                {data?.value?.governmentPosts[0] ? (
+                  <div className="text-center flex-1 px-1 my-4">
+                    <span className="text-lg font-extrabold">
+                      government posts
+                    </span>
+                    <hr />
+                    <table className="border-collapse flex-col table-auto w-full text-sm">
+                      <thead>
+                        <tr>
+                          <th className="text-start">Post</th>
+                          <th>From</th>
+                          <th>Until </th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              ) : null}
+                      </thead>
+                      <tbody>
+                        {data.value.governmentPosts.map((e: GovernmentPost) => (
+                          <tr key={e.id} className="odd:bg-blue-500 ">
+                            <td className="flex flex-auto w-3/4 py-1 text-start">
+                              {e.name}
+                            </td>
+                            <td className="  py-1 text-center">
+                              {parseDate(e.startDate)}
+                            </td>
+                            <td className=" py-1 text-center">
+                              {e?.endDate ? parseDate(e?.endDate) : "now"}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : null}
+
+                {data?.value?.committeeMemberships[0] ? (
+                  <div className="text-center flex-1 px-1 my-4">
+                    <span className="text-lg font-extrabold">
+                      committee memberships
+                    </span>
+                    <hr />
+                    <table className="border-collapse flex-col table-auto w-full text-sm">
+                      <thead>
+                        <tr>
+                          <th className="text-start">Committee</th>
+                          <th>From</th>
+                          <th>Until </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {data.value.committeeMemberships.map(
+                          (e: GovernmentPost) => (
+                            <tr key={e.id} className="odd:bg-blue-500 ">
+                              <td className="flex flex-auto w-3/4 py-1 text-start">
+                                {e.name}
+                              </td>
+                              <td className="  py-1 text-center">
+                                {parseDate(e.startDate)}
+                              </td>
+                              <td className=" py-1 text-center">
+                                {e?.endDate ? parseDate(e?.endDate) : "now"}
+                              </td>
+                            </tr>
+                          )
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : null}
+              </div>
             </div>
           </div>
         </Layout>
